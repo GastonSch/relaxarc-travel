@@ -114,6 +114,8 @@ class ProfileResource extends Resource
 
     public static function shouldIgnorePolicies(): bool
     {
-        return checkRoles(["ADMIN", 1], self::getUser()->roles);
+        $user = self::getUser();
+        $userRoles = is_array($user->roles) ? $user->roles : json_decode($user->roles, true) ?? [];
+        return checkRoles(["ADMIN", 1], $userRoles);
     }
 }

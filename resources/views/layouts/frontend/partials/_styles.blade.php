@@ -15,3 +15,9 @@
 
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{{ asset('assets/frontend/styles/main.css') }}">
+
+<!-- Modern CSS -->
+<link rel="stylesheet" href="{{ asset('assets/frontend/styles/modern.css') }}">
+
+<!-- Push Styles -->
+@stack('styles')

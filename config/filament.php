@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'path' => env('FILAMENT_PATH', 'admin'),
+    'path' => env('FILAMENT_PATH', 'filament-disabled'),
 
     /*
     |--------------------------------------------------------------------------
@@ -76,7 +76,7 @@ return [
     |
     */
 
-    'brand' => env('APP_NAME'),
+    'brand' => 'Global Travels Admin',
 
     /*
     |--------------------------------------------------------------------------

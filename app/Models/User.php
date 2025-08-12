@@ -41,7 +41,12 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'roles' => 'array'
+        'roles' => 'array',
+        'hire_date' => 'date',
+        'birth_date' => 'date',
+        'last_login_at' => 'datetime',
+        'preferences' => 'array',
+        'commission_percentage' => 'decimal:2',
     ];
 
     /**
@@ -84,6 +89,16 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
     public function getIsCompleteProfileAttribute()
     {
         return $this->phone && $this->address;
+    }
+
+    /**
+     * Get the user's roles as array (handles string to array conversion)
+     *
+     * @return array
+     */
+    public function getRolesArrayAttribute()
+    {
+        return is_array($this->roles) ? $this->roles : json_decode($this->roles, true) ?? [];
     }
 
     /**
@@ -135,6 +150,91 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
      */
     public function canAccessFilament(): bool
     {
-        return checkRoles(["ADMIN", 1], $this->roles) && $this->status === 'ACTIVE';
+        return checkRoles(["ADMIN", "VENDEDOR", 1], $this->roles_array) && $this->status === 'ACTIVE';
+    }
+
+    /**
+     * Check if user has admin role
+     *
+     * @return bool
+     */
+    public function isAdmin(): bool
+    {
+        return in_array('ADMIN', $this->roles_array);
+    }
+
+    /**
+     * Check if user has seller role
+     *
+     * @return bool
+     */
+    public function isVendedor(): bool
+    {
+        return in_array('VENDEDOR', $this->roles_array);
+    }
+
+    /**
+     * Check if user has client role
+     *
+     * @return bool
+     */
+    public function isCliente(): bool
+    {
+        return in_array('CLIENTE', $this->roles_array);
+    }
+
+    /**
+     * Get the admin assigned to this seller
+     */
+    public function assignedAdmin()
+    {
+        return $this->belongsTo(User::class, 'assigned_admin_id');
+    }
+
+    /**
+     * Get sellers assigned to this admin
+     */
+    public function assignedSellers()
+    {
+        return $this->hasMany(User::class, 'assigned_admin_id');
+    }
+
+    /**
+     * Get user's preferences as array
+     *
+     * @return array
+     */
+    public function getPreferencesArrayAttribute()
+    {
+        return is_array($this->preferences) ? $this->preferences : json_decode($this->preferences, true) ?? [];
+    }
+
+    /**
+     * Get formatted commission percentage
+     *
+     * @return string
+     */
+    public function getFormattedCommissionAttribute()
+    {
+        return $this->commission_percentage ? $this->commission_percentage . '%' : 'N/A';
+    }
+
+    /**
+     * Get display role name in Spanish
+     *
+     * @return string
+     */
+    public function getDisplayRoleAttribute()
+    {
+        $primaryRole = $this->roles_array[0] ?? 'CLIENTE';
+        
+        $roleNames = [
+            'ADMIN' => 'Administrador',
+            'VENDEDOR' => 'Vendedor',
+            'CLIENTE' => 'Cliente',
+            'MEMBER' => 'Cliente', // Legacy compatibility
+        ];
+        
+        return $roleNames[$primaryRole] ?? 'Cliente';
     }
 }

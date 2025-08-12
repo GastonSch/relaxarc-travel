@@ -167,7 +167,8 @@ function currencyFormat(int $value): string
  */
 function setPermissions(array $availableRoles, User $user, bool|Closure $ability = false)
 {
+    $userRoles = is_array($user->roles) ? $user->roles : json_decode($user->roles, true) ?? [];
     return $ability
-        ? $ability() && checkRoles($availableRoles, $user->roles)
-        : checkRoles($availableRoles, $user->roles);
+        ? $ability() && checkRoles($availableRoles, $userRoles)
+        : checkRoles($availableRoles, $userRoles);
 }

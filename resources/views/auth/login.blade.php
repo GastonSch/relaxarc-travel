@@ -126,7 +126,7 @@
         }
     </style>
 
-    <title>{{ __('RelaxArc Login') }}</title>
+    <title>{{ __('Global Travels - Iniciar Sesión') }}</title>
 </head>
 
 <body>

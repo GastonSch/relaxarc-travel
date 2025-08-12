@@ -17,7 +17,7 @@
         <x-transactions.search-bar :route="route('transactions.index')" file='index' />
 
         <div class="col-md-11 my-4">
-            @if (checkRoles(["ADMIN", "SUPERADMIN", 2], auth()->user()->roles))
+            @if (checkRoles(["ADMIN", "SUPERADMIN", 2], auth()->user()->roles_array))
             <a href="{{ route('transactions.trash') }}" class="btn btn-orange btn-block mt-3">{{
                 __('Transactions deleted') }}</a>
             @endif

@@ -1,5 +1,5 @@
 <h1 align="center">
-🌴 RelaxArc Travel - Plataforma de Turismo
+🌍 Global Travels - Plataforma de Turismo
 </h1>
 
 <h5 align="center">

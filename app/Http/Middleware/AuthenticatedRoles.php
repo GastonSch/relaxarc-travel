@@ -18,6 +18,7 @@ class AuthenticatedRoles
     {
         if ($request->routeIs('users.generate-username')) return $next($request);
 
-        return (checkRoles($roles, $request->user()->roles)) ? $next($request) : abort(403);
+        $userRoles = is_array($request->user()->roles) ? $request->user()->roles : json_decode($request->user()->roles, true) ?? [];
+        return (checkRoles($roles, $userRoles)) ? $next($request) : abort(403);
     }
 }

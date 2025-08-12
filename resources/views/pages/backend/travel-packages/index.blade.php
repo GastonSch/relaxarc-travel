@@ -19,7 +19,7 @@
         <div class="col-md-12 my-4">
             <a href="{{ route('travel-packages.create') }}" class="btn btn-dark-blue btn-block">
                 {{ __('Add new travel packages') }}</a>
-            @if (checkRoles(["ADMIN", "SUPERADMIN", 2], auth()->user()->roles))
+            @if (checkRoles(["ADMIN", "SUPERADMIN", 2], auth()->user()->roles_array))
             <a href="{{ route('travel-packages.trash') }}" class="btn btn-orange btn-block mt-3">
                 {{ __('Travel packages deleted / expired') }}</a>
             @endif

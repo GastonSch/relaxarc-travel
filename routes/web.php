@@ -8,6 +8,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\TravelPackageController;
+use App\Http\Controllers\VendedorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,5 +70,17 @@ Route::middleware(['preventBack'])
                 Route::get("/profile/change-password", [ProfileController::class, "frontChangePassword"])->name("front-change-password");
                 Route::patch("/profile/update-password", [ProfileController::class, "updatePassword"])->name("update-password");
                 Route::get("/profile/detail/{user:username}/{invoice_number?}", [UserController::class, "show"])->name("detail-profile");
+                
+                // 🟠 RUTAS PARA VENDEDORES
+                Route::prefix('vendedor')->name('vendedor.')->group(function () {
+                    Route::get('/dashboard', [VendedorController::class, 'dashboard'])->name('dashboard');
+                    Route::get('/paquetes', [VendedorController::class, 'packages'])->name('packages');
+                    Route::get('/paquetes/{package:slug}', [VendedorController::class, 'packageDetail'])->name('packages.detail');
+                    Route::get('/ventas', [VendedorController::class, 'sales'])->name('sales');
+                    Route::get('/ventas/{transaction:invoice_number}', [VendedorController::class, 'saleDetail'])->name('sales.detail');
+                    Route::get('/perfil', [VendedorController::class, 'profile'])->name('profile');
+                    Route::put('/perfil', [VendedorController::class, 'updateProfile'])->name('profile.update');
+                    Route::get('/reportes', [VendedorController::class, 'reports'])->name('reports');
+                });
             });
     });

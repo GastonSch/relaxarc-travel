@@ -394,7 +394,7 @@
                                                         </td>
                                                         <td
                                                             style="font-size: 18px; color: #071c4d; font-family: Assistant, Helvatica, Arial, sans-serif;">
-                                                            info@relaxarc.com <br> 0319232372 </td>
+                                                            info@globaltravels.com <br> +52 55 1234 5678 </td>
                                                     </tr>
                                                 </table>
                                             </td>
@@ -425,7 +425,7 @@
                                                 style="font-size:0px;padding:30px 25px 0 25px;word-break:break-word;">
                                                 <div
                                                     style="font-family:Assistant, Helvatica, Arial, sans-serif;font-size:18px;line-height:1;text-align:center;color:#888b93;">
-                                                    {{ date('Y') }} &copy; Copyright RelaxArc
+                                                    {{ date('Y') }} © Copyright Global Travels
                                                     <br>
                                                     &diams; All rights reserved &diams;
                                                 </div>

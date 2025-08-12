@@ -137,7 +137,8 @@ class ProfileController extends Controller
     {
         $member = false;
 
-        if (in_array('MEMBER', $this->user->roles)) $member = true;
+        $userRoles = is_array($this->user->roles) ? $this->user->roles : json_decode($this->user->roles, true) ?? [];
+        if (in_array('MEMBER', $userRoles)) $member = true;
 
         if ($updateProfile) {
             $routeName = $member ? 'front-profile' : 'back-profile';
@@ -152,7 +153,7 @@ class ProfileController extends Controller
                 ->with('failed', $e->getMessage());
         }
 
-        if (checkRoles(["ADMIN", 1], $this->user->roles)) {
+        if (checkRoles(["ADMIN", 1], $userRoles)) {
             if ($updateProfile) {
                 if ($deleteAavatar) return redirect()->route($routeName)->with('success', trans('status.delete_avatar'));
 

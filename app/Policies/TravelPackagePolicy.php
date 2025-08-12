@@ -19,7 +19,7 @@ class TravelPackagePolicy
      */
     public function viewAny(User $user)
     {
-        return setPermissions(["ADMIN", "SUPERADMIN", 1], $user);
+        return setPermissions(["ADMIN", "VENDEDOR", "SUPERADMIN", 1], $user);
     }
 
     /**
@@ -31,7 +31,7 @@ class TravelPackagePolicy
      */
     public function view(User $user, TravelPackage $travelPackage)
     {
-        return setPermissions(["ADMIN", "SUPERADMIN", 1], $user);
+        return setPermissions(["ADMIN", "VENDEDOR", "SUPERADMIN", 1], $user);
     }
 
     /**
@@ -42,6 +42,7 @@ class TravelPackagePolicy
      */
     public function create(User $user)
     {
+        // Solo administradores pueden crear paquetes
         return setPermissions(["ADMIN", "SUPERADMIN", 1], $user);
     }
 

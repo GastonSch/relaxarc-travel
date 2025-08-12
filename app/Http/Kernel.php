@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'hasFullProfile' => \App\Http\Middleware\HasFullProfile::class,
         'authRoles' => \App\Http\Middleware\AuthenticatedRoles::class,
         'adminAuth' => \App\Http\Middleware\FilamentAuthenticate::class,
+        'role' => \App\Http\Middleware\RoleMiddleware::class,
     ];
 }

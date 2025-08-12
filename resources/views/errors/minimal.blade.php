@@ -27,7 +27,7 @@
         <p style="font-size:150px">@yield('code')</p>
         <p><strong>Whoops</strong> <span class="d-block">@yield('message')</span></p>
         @auth
-        @if (checkRoles(["ADMIN", 1], auth()->user()->roles))
+        @if (checkRoles(["ADMIN", 1], auth()->user()->roles_array))
         <a href="{{ route('filament.pages.dashboard') }}" class="btn btn-secondary btn-outline-light mt-3">{{ __('Back
             to dashoard')
             }}</a>

@@ -71,12 +71,15 @@
                             </span>
                             @enderror
                         </div>
-                        @if (checkRoles(["ADMIN",1], $user->roles))
+                        @php
+                            $userRoles = is_array($user->roles) ? $user->roles : json_decode($user->roles, true) ?? [];
+                        @endphp
+                        @if (checkRoles(["ADMIN",1], $userRoles))
                         <div class="form-group">
                             <label for="rolesLabel" class="d-block">{{ __('Roles') }}</label>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input @error('roles') is-invalid @enderror" type="checkbox"
-                                    name="roles[]" id="admin" value="admin" {{ in_array('ADMIN', $user->roles) ?
+                                    name="roles[]" id="admin" value="admin" {{ in_array('ADMIN', $userRoles) ?
                                 'checked' : '' }}>
                                 <label class="form-check-label" for="admin">
                                     Admin
@@ -85,7 +88,7 @@
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input @error('roles') is-invalid @enderror" type="checkbox"
                                     name="roles[]" id="superadmin" value="superadmin" {{ in_array('SUPERADMIN',
-                                    $user->roles) ? 'checked' : '' }}>
+                                    $userRoles) ? 'checked' : '' }}>
                                 <label class="form-check-label" for="superadmin">
                                     SuperAdmin
                                 </label>

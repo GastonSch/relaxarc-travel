@@ -1,6 +1,6 @@
 @extends('layouts.backend.master-backend')
 
-@section('title', 'RelaxArc Dashboard')
+@section('title', 'Global Travels - Panel de Administración')
 
 @section('content')
 <div class="container-fluid">

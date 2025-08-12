@@ -5,7 +5,7 @@
         <div class="sidebar-brand-icon">
             <i class="fas fa-map-marker-alt"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">RelaxArc Admin</div>
+        <div class="sidebar-brand-text mx-3">Global Travels Admin</div>
     </a>
 
     <!-- Divider -->
@@ -22,7 +22,7 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Admin Menu -->
-    @if (checkRoles(["ADMIN", "SUPERADMIN", 2], auth()->user()->roles))
+    @if (checkRoles(["ADMIN", "SUPERADMIN", 2], auth()->user()->roles_array))
     <li class="nav-item{{ request()->is('admin/users*') ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('users.index') }}">
             <i class="fas fa-user-tag"></i>

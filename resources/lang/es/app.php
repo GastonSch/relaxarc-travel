@@ -2,7 +2,7 @@
 
 return [
     // Generales
-    'app_name' => 'RelaxArc Travel',
+    'app_name' => 'Global Travels',
     'welcome' => 'Bienvenido',
     'home' => 'Inicio',
     'about' => 'Acerca de',
@@ -193,7 +193,7 @@ return [
     // Footer
     'footer' => [
         'copyright' => 'Todos los derechos reservados.',
-        'company' => 'RelaxArc Travel',
+        'company' => 'Global Travels',
         'year' => date('Y'),
         'terms' => 'Términos y Condiciones',
         'privacy' => 'Política de Privacidad',

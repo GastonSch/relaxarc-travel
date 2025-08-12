@@ -49,3 +49,9 @@
     };
 
 </script>
+
+<!-- Modern JavaScript -->
+<script src="{{ asset('assets/frontend/js/modern.js') }}"></script>
+
+<!-- Push Scripts -->
+@stack('scripts')

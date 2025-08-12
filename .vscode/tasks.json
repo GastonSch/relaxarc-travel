@@ -1,0 +1,81 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Laravel: Start Server",
+            "type": "shell",
+            "command": "php",
+            "args": [
+                "artisan",
+                "serve",
+                "--port=8000"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "isBackground": true,
+            "problemMatcher": []
+        },
+        {
+            "label": "Laravel: Run Migrations",
+            "type": "shell",
+            "command": "php",
+            "args": [
+                "artisan",
+                "migrate"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Laravel: Clear Cache",
+            "type": "shell",
+            "command": "php",
+            "args": [
+                "artisan",
+                "cache:clear"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "NPM: Install Dependencies",
+            "type": "shell",
+            "command": "npm",
+            "args": [
+                "install"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "NPM: Development Build",
+            "type": "shell",
+            "command": "npm",
+            "args": [
+                "run",
+                "dev"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "NPM: Watch Mode",
+            "type": "shell",
+            "command": "npm",
+            "args": [
+                "run",
+                "watch"
+            ],
+            "group": "build",
+            "isBackground": true,
+            "problemMatcher": []
+        }
+    ]
+}

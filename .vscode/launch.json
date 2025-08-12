@@ -1,0 +1,37 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Listen for Xdebug",
+            "type": "php",
+            "request": "launch",
+            "port": 9003,
+            "log": true,
+            "pathMappings": {
+                "/var/www/html": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Laravel Artisan",
+            "type": "php",
+            "request": "launch",
+            "program": "${workspaceFolder}/artisan",
+            "cwd": "${workspaceFolder}",
+            "args": [],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Laravel Server",
+            "type": "php",
+            "request": "launch",
+            "program": "${workspaceFolder}/artisan",
+            "args": [
+                "serve",
+                "--host=0.0.0.0",
+                "--port=8000"
+            ],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal"
+        }
+    ]
+}

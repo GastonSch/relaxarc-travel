@@ -53,8 +53,12 @@ class TravelPackageRepository implements TravelPackageRepositoryInterface
     public function findAllTravelPackagesByKeyword(?string $keyword)
     {
         return $this->model->where(function ($query) use ($keyword) {
-            $query->where('title', 'LIKE', "%$keyword%")
-                ->orWhere('location', 'LIKE', "%$keyword%");
+            if (empty($keyword)) {
+                $query->whereRaw('1 = 1'); // Always true condition when no keyword
+            } else {
+                $query->where('title', 'LIKE', "%$keyword%")
+                    ->orWhere('location', 'LIKE', "%$keyword%");
+            }
         });
     }
 
@@ -68,8 +72,12 @@ class TravelPackageRepository implements TravelPackageRepositoryInterface
     {
         return $this->model->onlyTrashed()
             ->where(function ($query) use ($keyword) {
-                $query->where('title', 'LIKE', "%$keyword%")
-                    ->orWhere('location', 'LIKE', "%$keyword%");
+                if (empty($keyword)) {
+                    $query->whereRaw('1 = 1'); // Always true condition when no keyword
+                } else {
+                    $query->where('title', 'LIKE', "%$keyword%")
+                        ->orWhere('location', 'LIKE', "%$keyword%");
+                }
             });
     }
 
