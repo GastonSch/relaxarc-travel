@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\TravelPackageController;
 use App\Http\Controllers\VendedorController;
+use App\Http\Controllers\ClienteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,6 +82,33 @@ Route::middleware(['preventBack'])
                     Route::get('/perfil', [VendedorController::class, 'profile'])->name('profile');
                     Route::put('/perfil', [VendedorController::class, 'updateProfile'])->name('profile.update');
                     Route::get('/reportes', [VendedorController::class, 'reports'])->name('reports');
+                });
+
+                // 🔵 RUTAS PARA CLIENTES
+                Route::prefix('cliente')->name('cliente.')->middleware('cliente')->group(function () {
+                    Route::get('/dashboard', [ClienteController::class, 'dashboard'])->name('dashboard');
+                    
+                    // Gestión de Viajes
+                    Route::get('/viajes', [ClienteController::class, 'viajes'])->name('viajes');
+                    Route::get('/viajes/crear', [ClienteController::class, 'crearReserva'])->name('viajes.crear');
+                    Route::get('/viajes/{id}', [ClienteController::class, 'viajeDetalle'])->name('viajes.show');
+                    Route::get('/viajes/{id}/documentos', [ClienteController::class, 'viajeDocumentos'])->name('viajes.documentos');
+                    
+                    // Reservas
+                    Route::get('/reservas', [ClienteController::class, 'reservas'])->name('reservas');
+                    
+                    // Facturas
+                    Route::get('/facturas', [ClienteController::class, 'facturas'])->name('facturas');
+                    
+                    // Favoritos
+                    Route::get('/favoritos', [ClienteController::class, 'favoritos'])->name('favoritos');
+                    
+                    // Perfil
+                    Route::get('/perfil', [ClienteController::class, 'perfil'])->name('perfil');
+                    Route::put('/perfil', [ClienteController::class, 'perfilUpdate'])->name('perfil.update');
+                    
+                    // Configuración
+                    Route::get('/configuracion', [ClienteController::class, 'configuracion'])->name('configuracion');
                 });
             });
     });

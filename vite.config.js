@@ -6,9 +6,8 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/app.css',
-                'resources/js/app.js',
-                'resources/assets/backend/css/sb-admin-2.min.css',
-                'resources/assets/backend/js/sb-admin-2.min.js'
+                'resources/css/global-travels.css',
+                'resources/js/app.js'
             ],
             refresh: true,
         }),

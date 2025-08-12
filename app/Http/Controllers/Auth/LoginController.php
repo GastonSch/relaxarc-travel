@@ -79,10 +79,27 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        if (checkRoles(["ADMIN", 1], $user->roles_array)) return redirect()->intended(route('filament.pages.dashboard'));
+        // Check if user is admin or staff and redirect to admin panel
+        if (checkRoles(["ADMIN", 1], $user->roles_array)) {
+            return redirect()->intended('/admin');
+        }
+        
+        // Check if user is a client and redirect to client dashboard
+        if ($user->isCliente()) {
+            return redirect()->intended(route('cliente.dashboard'));
+        }
+        
+        // Check if user is a vendor and redirect to vendor dashboard  
+        if ($user->isVendedor()) {
+            return redirect()->intended(route('vendedor.dashboard'));
+        }
 
-        if (!auth()->user()->IsCompleteProfile) return redirect()->route('front-profile');
+        // Check if profile is complete
+        if (!auth()->user()->IsCompleteProfile) {
+            return redirect()->route('front-profile');
+        }
 
+        // Default redirect
         return ($request->session()->has('guest-route'))
             ? redirect($request->session()->pull('guest-route'))
             : redirect()->intended(route('home'));

@@ -7,14 +7,18 @@
         "hot": "vite --host"
     },
     "devDependencies": {
+        "@popperjs/core": "^2.11.8",
+        "@tailwindcss/forms": "^0.5.10",
+        "@tailwindcss/typography": "^0.5.16",
+        "autoprefixer": "^10.4.21",
         "axios": "^1.7.0",
         "bootstrap": "^5.3.3",
         "jquery": "^3.7.0",
         "laravel-vite-plugin": "^1.1.0",
         "lodash": "^4.17.21",
-        "@popperjs/core": "^2.11.0",
         "postcss": "^8.4.47",
         "sass": "^1.81.0",
+        "tailwindcss": "^4.1.11",
         "vite": "^6.0.0"
     }
 }

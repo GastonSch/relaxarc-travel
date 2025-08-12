@@ -28,9 +28,7 @@
         <p><strong>Whoops</strong> <span class="d-block">@yield('message')</span></p>
         @auth
         @if (checkRoles(["ADMIN", 1], auth()->user()->roles_array))
-        <a href="{{ route('filament.pages.dashboard') }}" class="btn btn-secondary btn-outline-light mt-3">{{ __('Back
-            to dashoard')
-            }}</a>
+        <a href="/admin" class="btn btn-secondary btn-outline-light mt-3">{{ __('Back to admin') }}</a>
         @else
         <a href="{{ route('home') }}" class="btn btn-secondary btn-outline-light mt-3">{{ __('Back to home') }}</a>
         @endif
