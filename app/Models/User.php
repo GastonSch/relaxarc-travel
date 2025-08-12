@@ -144,13 +144,23 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser, Has
     }
 
     /**
-     * Authenticate user to admin panel.
+     * Authenticate user to admin panel - Filament v3.
+     *
+     * @return bool
+     */
+    public function canAccessPanel($panel): bool
+    {
+        return checkRoles(["ADMIN", "VENDEDOR", 1], $this->roles_array) && $this->status === 'ACTIVE';
+    }
+
+    /**
+     * Authenticate user to admin panel - Legacy compatibility.
      *
      * @return bool
      */
     public function canAccessFilament(): bool
     {
-        return checkRoles(["ADMIN", "VENDEDOR", 1], $this->roles_array) && $this->status === 'ACTIVE';
+        return $this->canAccessPanel(null);
     }
 
     /**
