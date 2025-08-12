@@ -61,9 +61,11 @@ function createdUpdatedDeletedBy(int $id)
  */
 function formatTravelPackageDuration($value, $locale)
 {
-    $languageFormat = ($locale == 'id')
-        ? ' Hari'
-        : ' Day(s)';
+    $languageFormat = match($locale) {
+        'es' => ' Día(s)',
+        'id' => ' Hari',
+        default => ' Day(s)'
+    };
 
     return "$value $languageFormat";
 }
@@ -140,7 +142,7 @@ function transformStringToArray(string $data, string $separator)
  */
 function generateInvoiceNumber()
 {
-    return "RelaxArc-" . date('djy') . Str::random(16);
+    return "RA-" . date('djy') . '-' . Str::random(8);
 }
 
 /**
@@ -151,7 +153,8 @@ function generateInvoiceNumber()
  */
 function currencyFormat(int $value): string
 {
-    return 'Rp. ' . number_format($value, 0, '.', '.');
+    // Formato de moneda mexicana
+    return '$' . number_format($value, 2, '.', ',') . ' MXN';
 }
 
 /**

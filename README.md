@@ -1,17 +1,9 @@
-<!-- <p align="center">
-<img align="center" src="http://ForTheBadge.com/images/badges/built-with-love.svg"> <img align="center" src="http://ForTheBadge.com/images/badges/makes-people-smile.svg"> <img align="center" src="http://ForTheBadge.com/images/badges/built-by-developers.svg">
-</p>
-
-# Laravel Travel App Platform
-
-This is a travel app platform I made mostly using Laravel ^8.12 -->
-
 <h1 align="center">
-RelaxArc Travel
+🌴 RelaxArc Travel - Plataforma de Turismo
 </h1>
 
 <h5 align="center">
-Laravel Travel App Platform.
+Plataforma completa de gestión turística desarrollada con Laravel 8.x
 </h5>
 
 <p align="center">

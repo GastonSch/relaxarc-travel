@@ -29,24 +29,29 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
-    protected static ?string $navigationGroup = 'Admin Management';
+    protected static ?string $navigationGroup = 'Gestión Administrativa';
 
     protected static ?string $recordRouteKeyName = 'username';
 
+    protected static ?string $modelLabel = 'Usuario';
+    
+    protected static ?string $pluralModelLabel = 'Usuarios';
+
     public static function getBreadcrumb(): string
     {
-        return trans('Manage users');
+        return __('app.admin.manage_users');
     }
 
     protected static function getNavigationLabel(): string
     {
-        return trans('Manage users');
+        return __('app.admin.users');
     }
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()
-            ->where('id', '!=', auth()->id());
+        // Removemos el filtro que excluía al usuario actual para poder ver todos los usuarios
+        // Solo mantener si realmente necesitamos excluir al usuario loggeado
+        return parent::getEloquentQuery();
     }
 
     public static function form(Form $form): Form
@@ -56,7 +61,7 @@ class UserResource extends Resource
                 Card::make()
                     ->schema([
                         TextInput::make('name')
-                            ->label(trans('Name'))
+                            ->label(__('app.fields.name'))
                             ->required()
                             ->maxLength(255)
                             ->reactive()
@@ -70,51 +75,52 @@ class UserResource extends Resource
                             })
                             ->disabled(fn (Page $livewire): bool => $livewire instanceof EditUser),
                         TextInput::make('username')
-                            ->label('Username')
+                            ->label(__('app.fields.username'))
                             ->required()
                             ->maxLength(255)
                             ->disabled(),
                         TextInput::make('email')
-                            ->label('Email')
+                            ->label(__('app.fields.email'))
                             ->email()
                             ->required()
                             ->unique('users', 'email', ignoreRecord: true)
                             ->disabled(fn (Page $livewire): bool => $livewire instanceof EditUser),
                         TextInput::make('phone')
-                            ->label(trans('Phone'))
+                            ->label(__('app.fields.phone'))
                             ->required()
                             ->minLength(10)
                             ->maxLength(12)
                             ->unique('users', 'phone', ignoreRecord: true)
                             ->disabled(fn (Page $livewire): bool => $livewire instanceof EditUser),
                         TextInput::make('role')
-                            ->label(trans('Roles'))
-                            ->default('Staff')
+                            ->label(__('app.fields.roles'))
+                            ->default(__('app.roles.staff'))
                             ->disabled()
                             ->hidden(fn (Page $livewire): bool => $livewire instanceof EditUser)
                             ->dehydrated(false),
                         Select::make('roles')
-                            ->label(trans('Roles'))
+                            ->label(__('app.fields.roles'))
                             ->required()
                             ->multiple()
                             ->options([
-                                'SUPERADMIN' => 'Admin',
-                                'ADMIN' => 'Staff',
+                                'SUPERADMIN' => __('app.roles.superadmin'),
+                                'ADMIN' => __('app.roles.admin'),
+                                'MEMBER' => __('app.roles.member'),
                             ])
-                            ->rules(['array', 'in:ADMIN,SUPERADMIN'])
+                            ->rules(['array', 'in:ADMIN,SUPERADMIN,MEMBER'])
                             ->hidden(fn (Page $livewire): bool => $livewire instanceof CreateUser)
                             ->dehydrated(fn (Page $livewire): bool => !$livewire instanceof CreateUser),
                         Textarea::make('address')
                             ->required()
-                            ->label(trans('Address'))
+                            ->label(__('app.fields.address'))
                             ->minLength(10)
                             ->disabled(fn (Page $livewire): bool => $livewire instanceof EditUser),
                         Radio::make('status')
-                            ->label('Status')
+                            ->label(__('app.fields.status'))
                             ->required()
                             ->options([
-                                'ACTIVE' => trans('ACTIVE'),
-                                'NONE' => trans('NONE')
+                                'ACTIVE' => __('app.status.active'),
+                                'NONE' => __('app.status.inactive')
                             ])
                             ->required(fn (Page $livewire): bool => $livewire instanceof EditUser)
                             ->hidden(fn (Page $livewire): bool => $livewire instanceof CreateUser)
@@ -128,27 +134,38 @@ class UserResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                    ->label(trans('Name'))
+                    ->label(__('app.fields.name'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('username')
-                    ->label('Username')
+                    ->label(__('app.fields.username'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('email')
-                    ->label('Email'),
+                    ->label(__('app.fields.email'))
+                    ->searchable(),
                 BadgeColumn::make('roles')
-                    ->enum([
-                        'ADMIN, SUPERADMIN' => 'Admin',
-                        'ADMIN' => 'Staff',
-                        'MEMBER' => 'Member'
-                    ])
+                    ->label(__('app.fields.roles'))
+                    ->formatStateUsing(function ($state) {
+                        if (is_array($state)) {
+                            return collect($state)->map(function ($role) {
+                                return match($role) {
+                                    'SUPERADMIN' => __('app.roles.superadmin'),
+                                    'ADMIN' => __('app.roles.admin'),
+                                    'MEMBER' => __('app.roles.member'),
+                                    default => $role
+                                };
+                            })->join(', ');
+                        }
+                        return $state;
+                    })
                     ->colors([
-                        'danger' => 'ADMIN, SUPERADMIN',
-                        'success' => 'ADMIN',
-                        'primary' => 'MEMBER'
+                        'danger' => fn ($state) => is_array($state) && in_array('SUPERADMIN', $state),
+                        'success' => fn ($state) => is_array($state) && in_array('ADMIN', $state),
+                        'primary' => fn ($state) => is_array($state) && in_array('MEMBER', $state),
                     ]),
                 BadgeColumn::make('status')
+                    ->label(__('app.fields.status'))
                     ->fontFamily('mono')
                     ->weight('bold')
                     ->icons([
@@ -159,20 +176,32 @@ class UserResource extends Resource
                         'success' => 'ACTIVE',
                         'danger' => 'NONE'
                     ])
-                    ->formatStateUsing(fn (string $state) => trans($state))
+                    ->formatStateUsing(fn (string $state) => match($state) {
+                        'ACTIVE' => __('app.status.active'),
+                        'NONE' => __('app.status.inactive'),
+                        default => $state
+                    })
 
             ])
             ->filters([
                 SelectFilter::make('roles')
+                    ->label(__('app.fields.roles'))
                     ->options([
-                        '["ADMIN, SUPERADMIN"]' => 'Admin',
-                        '["ADMIN"]' => 'Staff',
-                        '["MEMBER"]' => 'Member',
-                    ]),
+                        '["SUPERADMIN"]' => __('app.roles.superadmin'),
+                        '["ADMIN"]' => __('app.roles.admin'),
+                        '["MEMBER"]' => __('app.roles.member'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query->when(
+                            $data['value'],
+                            fn (Builder $query, $value): Builder => $query->where('roles', 'LIKE', "%{$value}%"),
+                        );
+                    }),
                 SelectFilter::make('status')
+                    ->label(__('app.fields.status'))
                     ->options([
-                        'ACTIVE' => 'Active',
-                        'NONE' => 'Inactive'
+                        'ACTIVE' => __('app.status.active'),
+                        'NONE' => __('app.status.inactive')
                     ])
             ])
             ->actions([
